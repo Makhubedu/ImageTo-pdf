@@ -1,0 +1,28 @@
+{
+    "name": "imageTo-pdf",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Makhubedu/imageTo-pdf.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Makhubedu/imageTo-pdf/issues"
+    },
+    "homepage": "https://github.com/Makhubedu/imageTo-pdf#readme",
+    "dependencies": {
+        "express": "^4.17.1",
+        "jsx": "^0.9.89",
+        "tesseract.js": "^1.0.19"
+    },
+    "devDependencies": {
+        "nodemon": "^1.19.2"
+    }
+}
