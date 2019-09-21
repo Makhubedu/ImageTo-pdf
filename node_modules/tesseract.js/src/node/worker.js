@@ -1,19 +1,44 @@
-const workerUtils = require('../common/worker.js')
+/**
+ *
+ * Node worker implementation
+ *
+ * @fileoverview Node worker implementation
+ * @author Kevin Kwok <antimatter15@gmail.com>
+ * @author Guillermo Webster <gui@mit.edu>
+ * @author Jerome Wu <jeromewus@gmail.com>
+ */
 
-process.on('message', function(packet){
-    workerUtils.dispatchHandlers(packet, obj => process.send(obj))
-})
+const check = require('check-types');
+const workerUtils = require('../common/workerUtils');
+const b64toU8Array = require('./b64toU8Array');
 
-var TesseractCore;
-exports.getCore = function(req, res){
-    if(!TesseractCore){
-        res.progress({ status: 'loading tesseract core' })
-        TesseractCore = require('tesseract.js-core')
-        res.progress({ status: 'loaded tesseract core' })
+let TesseractCore = null;
+
+/*
+ * register message handler
+ */
+process.on('message', (packet) => {
+  workerUtils.dispatchHandlers(packet, obj => process.send(obj));
+});
+
+/*
+ * getCore is a sync function to load and return
+ * TesseractCore.
+ */
+workerUtils.setAdapter({
+  getCore: (corePath, res) => {
+    if (check.null(TesseractCore)) {
+      res.progress({ status: 'loading tesseract core', progress: 0 });
+      TesseractCore = require('tesseract.js-core');
+      res.progress({ status: 'loaded tesseract core', progress: 1 });
     }
-    return TesseractCore
-}
-
-exports.getLanguageData = require('./lang.js')
-
-workerUtils.setAdapter(module.exports);
+    return TesseractCore;
+  },
+  b64toU8Array,
+  writeFile: (path, data) => {
+    const fs = require('fs');
+    fs.writeFile(path, data, (err) => {
+      if (err) throw err;
+    });
+  },
+});

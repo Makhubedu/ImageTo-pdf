@@ -18,9 +18,11 @@
     },
     "homepage": "https://github.com/Makhubedu/imageTo-pdf#readme",
     "dependencies": {
+        "ejs": "^2.7.1",
         "express": "^4.17.1",
         "jsx": "^0.9.89",
-        "tesseract.js": "^1.0.19"
+        "multer": "^1.4.2",
+        "tesseract.js": "^2.0.0-alpha.15"
     },
     "devDependencies": {
         "nodemon": "^1.19.2"
